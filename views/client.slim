@@ -1,0 +1,27 @@
+ol class="breadcrumb"
+  li
+    a href="/clients" 
+      | Clientes
+  li.active 
+    = @client.name
+div
+  .h2.text-center
+    = "Cajas de #{@client.name}"
+  ul.list-group
+    - @client.boxes.each do |box|
+      li.list-group-item
+        a href="/client/#{@client.id}/box/#{box.id}"
+          = box.serial
+        a.pull-right href="/client/#{@client.id}/box/#{box.id}/delete" Borrar
+
+  button.btn.btn-default type="button" data-toggle="collapse" data-target="#newBox"
+    | Agregar
+
+  .collapse id="newBox"
+    .well
+      form action="/client/#{@client.id}/box/new" method="post"
+        input name="serial" type="text"
+        input type="submit"
+div
+  .h2.text-center
+    | Documentos almacenados recientemente

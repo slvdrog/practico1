@@ -1,0 +1,26 @@
+ol class="breadcrumb"
+  li
+    a href="/clients" 
+      | Clientes
+  li 
+    a href="/client/#{@box.client.id}" 
+      = @box.client.name 
+  li class="active"
+      = @box.serial 
+
+div
+  .h2.text-center
+    = "Documentos en #{@box.serial} de #{@box.client.name}"
+  ul.list-group
+    - @box.documents.each do |document|
+      li.list-group-item
+        = document.name
+        a.pull-right href="/client/#{@box.client.id}/box/#{@box.id}/document/#{document.id}/delete" Borrar
+
+  button.btn.btn-default type="button" data-toggle="collapse" data-target="#newDoc"
+    | Agregar
+  .collapse id="newDoc"
+    .well
+      form action="/client/#{@box.client.id}/box/#{@box.id}/document/new" method="post"
+        input name="name" type="text"
+        input type="submit"
