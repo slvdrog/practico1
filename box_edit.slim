@@ -1,20 +1,9 @@
-ol class="breadcrumb"
-  li
-    a href="/clients" 
-      | Clientes
-  li 
-    a href="/client/#{@box.client.id}" 
-      = @box.client.name 
-  li class="active"
-      = @box.serial 
-
 div
   .h2.text-center
     = "Documentos en #{@box.serial} de #{@box.client.name}"
   ul.list-group
     - @box.documents.each do |document|
       li.list-group-item
-        a href="/client/#{@box.client.id}/box/#{@box.id}"
         = document.name
         a.pull-right href="/client/#{@box.client.id}/box/#{@box.id}/document/#{document.id}/delete" Borrar
 
