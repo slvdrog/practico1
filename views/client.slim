@@ -25,3 +25,7 @@ div
 div
   .h2.text-center
     | Documentos almacenados recientemente
+  ul.list-group
+    - @recent_documents.each do |document|
+      li.list-group-item
+      = document.name
