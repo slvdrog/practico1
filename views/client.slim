@@ -25,3 +25,6 @@ div
 div
   .h2.text-center
     | Documentos almacenados recientemente
+     -@document.each do |doc|
+        -doc.name
+    
