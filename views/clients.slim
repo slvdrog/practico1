@@ -5,7 +5,7 @@ div
     - @clients.each do |client|
       li.list-group-item
         a href="/client/#{client.id}"
-          = client.name
+          = client.name 
         a.pull-right href="/client/#{client.id}/delete" Borrar
 
   button.btn.btn-default type="button" data-toggle="collapse" data-target="#newClient"
