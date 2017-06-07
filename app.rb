@@ -28,6 +28,12 @@ end
 
 class Document
   # Clase por completar
+  include DataMapper::Resource
+  property :id, Serial
+  property :name, String
+  property :created_at, Date
+
+  belongs_to :box
 end
 
 DataMapper.auto_upgrade!
@@ -45,12 +51,19 @@ get '/client/:id' do
   @client = Client.get(params[:id])
   # Aca deben consultar los ultimos 5 documentos almacenados recientemente
   @recent_documents = []
-
+  @recent_documents = @client.boxes.documents.all(:limit => 5, :order => [ :created_at.desc ])
+  
   slim :client
 end
 
 post '/client/new' do
   # Creacion de Cliente
+  client = Client.new(:name => params[:name])
+  if client.save
+    redirect "/clients"
+  else
+    p 'No se guardo'
+  end
 end
 
 get '/client/:id/delete' do
@@ -80,6 +93,10 @@ end
 
 get '/client/:client_id/box/:id' do
   # Consulta de caja de un cliente
+  client = Client.get(params[:client_id])
+  @box = client.boxes.get(params[:id])
+  
+  slim :box
 end
 
 post '/client/:client_id/box/:box_id/document/new' do
@@ -95,4 +112,9 @@ end
 
 get '/client/:client_id/box/:box_id/document/:id/delete' do
   # Borrado de un documento, usando la herencia de la ruta
+  client = Client.get(params[:client_id])
+  box = client.boxes.get(params[:box_id])
+  document = box.documents.get(params[:id])
+  document.destroy
+  redirect "/client/#{client.id}/box/#{box.id}"
 end
